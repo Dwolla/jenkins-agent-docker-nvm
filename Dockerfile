@@ -7,7 +7,7 @@ ENV NVM_VERSION=v0.29.0 \
 
 USER root
 
-RUN apk add --update docker tar node && \
+RUN apk add --update docker tar nodejs && \
     rm -rf /var/cache/apk/*
 
 USER jenkins
