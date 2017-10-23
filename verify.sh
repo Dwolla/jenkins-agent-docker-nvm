@@ -8,5 +8,5 @@ echo running \`nvm install\` > /dev/stderr
 nvm install
 set -x
 
-yarn install
-yarn test
+npm install
+npm test
