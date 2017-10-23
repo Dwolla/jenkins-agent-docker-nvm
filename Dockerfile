@@ -5,15 +5,19 @@ LABEL org.label-schema.vcs-url="https://github.com/Dwolla/jenkins-agent-docker-n
 ENV JENKINS_HOME=/home/jenkins \
     JENKINS_AGENT=/usr/share/jenkins \
     AGENT_VERSION=2.61
-ENV NVM_VERSION=v0.32.0 \
+ENV NVM_VERSION=v0.33.5 \
     NVM_DIR="${JENKINS_HOME}/.nvm"
 
 COPY jenkins-agent /usr/local/bin/jenkins-agent
 COPY verify.sh /usr/local/bin/verify.sh
 
 RUN apt-get update && \
-    apt-get install -y curl bash git ca-certificates python make g++ && \
+    apt-get install -y curl bash git ca-certificates python make g++ apt-transport-https && \
     curl --create-dirs -sSLo ${JENKINS_AGENT}/agent.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${AGENT_VERSION}/remoting-${AGENT_VERSION}.jar && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && \
+    apt-get install -y yarn && \
     chmod 755 ${JENKINS_AGENT} && \
     chmod 644 ${JENKINS_AGENT}/agent.jar && \
     mkdir -p ${JENKINS_HOME} && \
