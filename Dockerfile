@@ -5,7 +5,7 @@ LABEL org.label-schema.vcs-url="https://github.com/Dwolla/jenkins-agent-docker-n
 ENV JENKINS_HOME=/home/jenkins \
     JENKINS_AGENT=/usr/share/jenkins \
     AGENT_VERSION=2.61
-ENV NVM_VERSION=v0.32.0 \
+ENV NVM_VERSION=v0.33.5 \
     NVM_DIR="${JENKINS_HOME}/.nvm"
 
 COPY jenkins-agent /usr/local/bin/jenkins-agent
@@ -20,7 +20,8 @@ RUN apt-get update && \
     useradd --home ${JENKINS_HOME} --system jenkins && \
     chown -R jenkins ${JENKINS_HOME} && \
     chmod 755 /usr/local/bin/jenkins-agent && \
-    apt-get clean
+    apt-get clean && \
+    apk add yarn
 
 WORKDIR ${JENKINS_HOME}
 USER jenkins
