@@ -4,15 +4,30 @@ LABEL org.label-schema.vcs-url="https://github.com/Dwolla/jenkins-agent-docker-n
 
 ENV JENKINS_HOME=/home/jenkins \
     JENKINS_AGENT=/usr/share/jenkins \
-    AGENT_VERSION=2.61
-ENV NVM_VERSION=v0.32.0 \
-    NVM_DIR="${JENKINS_HOME}/.nvm"
+    AGENT_VERSION=2.62.6 \
+    NVM_VERSION=v0.33.6
 
+ENV NVM_DIR="${JENKINS_HOME}/.nvm"
+
+WORKDIR ${JENKINS_HOME}
 COPY jenkins-agent /usr/local/bin/jenkins-agent
 COPY verify.sh /usr/local/bin/verify.sh
 
-RUN apt-get update && \
-    apt-get install -y curl bash git ca-certificates python make g++ && \
+# apt-key loop inspired by https://github.com/nodejs/docker-node/issues/340#issuecomment-321669029
+RUN set -ex && \
+    apt-get update && \
+    apt-get install -y curl bash git ca-certificates python python-pip make g++ apt-transport-https bc jq && \
+    for key in \
+      58118E89F3A912897C070ADBF76221572C52609D \
+    ; do \
+      apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys "$key" || \
+      apt-key adv --keyserver hkp://keyserver.pgp.com:80 --recv-keys "$key" || \
+      apt-key adv --keyserver hkp://ipv4.pool.sks-keyservers.net:80 --recv-keys "$key" ; \
+    done && \
+    echo "deb https://apt.dockerproject.org/repo debian-jessie main" > /etc/apt/sources.list.d/docker.list && \
+    apt-get update && \
+    apt-get install -y docker-engine && \
+    pip install awscli && \
     curl --create-dirs -sSLo ${JENKINS_AGENT}/agent.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${AGENT_VERSION}/remoting-${AGENT_VERSION}.jar && \
     chmod 755 ${JENKINS_AGENT} && \
     chmod 644 ${JENKINS_AGENT}/agent.jar && \
@@ -22,12 +37,10 @@ RUN apt-get update && \
     chmod 755 /usr/local/bin/jenkins-agent && \
     apt-get clean
 
-WORKDIR ${JENKINS_HOME}
 USER jenkins
 
-RUN curl -L https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | /bin/bash
-
-RUN git config --global user.email "dev+jenkins@dwolla.com" && \
+RUN curl -L https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | /bin/bash && \
+    git config --global user.email "dev+jenkins@dwolla.com" && \
     git config --global user.name "Jenkins Build Agent"
 
 ENTRYPOINT ["jenkins-agent"]
