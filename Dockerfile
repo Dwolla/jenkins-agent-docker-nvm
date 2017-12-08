@@ -39,7 +39,10 @@ RUN set -ex && \
     echo "deb https://apt.dockerproject.org/repo debian-jessie main" > /etc/apt/sources.list.d/docker.list && \
     apt-get update && \
     apt-get install -y docker-engine && \
-    pip install awscli && \
+    pip install \
+        awscli \
+        virtualenv \
+        && \
     curl --create-dirs -sSLo ${JENKINS_AGENT}/agent.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${AGENT_VERSION}/remoting-${AGENT_VERSION}.jar && \
     chmod 755 ${JENKINS_AGENT} && \
     chmod 644 ${JENKINS_AGENT}/agent.jar && \
