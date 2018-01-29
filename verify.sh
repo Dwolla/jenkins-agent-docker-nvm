@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-./nvm-install.sh
+. ./nvm-install.sh
 
 npm install
 npm test
