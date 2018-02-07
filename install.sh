@@ -7,3 +7,5 @@ echo running \`. ${NVM_DIR}/nvm.sh --no-use\` > /dev/stderr
 echo running \`nvm install\` > /dev/stderr
 nvm install
 set -x
+
+npm install
