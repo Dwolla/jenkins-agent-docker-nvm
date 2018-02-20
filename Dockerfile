@@ -1,5 +1,5 @@
 FROM openjdk:8-jre
-MAINTAINER Dwolla Dev <dev+jenkins-nvm@dwolla.com>
+LABEL maintainer="dev+jenkins-nvm@dwolla.com"
 LABEL org.label-schema.vcs-url="https://github.com/Dwolla/jenkins-agent-docker-nvm"
 
 ENV JENKINS_HOME=/home/jenkins \
@@ -10,8 +10,7 @@ ENV JENKINS_HOME=/home/jenkins \
 ENV NVM_DIR="${JENKINS_HOME}/.nvm"
 
 WORKDIR ${JENKINS_HOME}
-COPY jenkins-agent /usr/local/bin/jenkins-agent
-COPY verify.sh /usr/local/bin/verify.sh
+COPY jenkins-agent install.sh verify.sh /usr/local/bin/
 
 # apt-key loop inspired by https://github.com/nodejs/docker-node/issues/340#issuecomment-321669029
 RUN set -ex && \
