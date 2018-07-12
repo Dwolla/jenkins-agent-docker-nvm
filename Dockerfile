@@ -23,6 +23,7 @@ RUN set -ex && \
         curl \
         git \
         jq \
+        libpng-dev \
         make \
         python \
         python-pip \
