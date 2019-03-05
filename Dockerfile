@@ -2,7 +2,7 @@ FROM dwolla/jenkins-agent-core:debian
 LABEL org.label-schema.vcs-url="https://github.com/Dwolla/jenkins-agent-docker-nvm"
 LABEL maintainer="dev+jenkins-nvm@dwolla.com"
 
-ENV NVM_VERSION=v0.33.6 \
+ENV NVM_VERSION=v0.34.0 \
     NVM_DIR="${JENKINS_HOME}/.nvm"
 
 COPY install.sh verify.sh /usr/local/bin/
