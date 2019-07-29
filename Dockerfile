@@ -13,6 +13,8 @@ RUN set -ex && \
     apt-get install -y \
         libpng-dev \
         && \
+    echo "dash dash/sh boolean false" | debconf-set-selections && \
+    dpkg-reconfigure dash -f noninteractive && \
     apt-get clean
 
 USER jenkins
