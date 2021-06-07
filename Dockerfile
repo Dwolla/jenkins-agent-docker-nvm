@@ -12,6 +12,7 @@ RUN set -ex && \
     apt-get update && \
     apt-get install -y \
         libpng-dev \
+        xvfb \
         && \
     echo "dash dash/sh boolean false" | debconf-set-selections && \
     dpkg-reconfigure dash -f noninteractive && \
