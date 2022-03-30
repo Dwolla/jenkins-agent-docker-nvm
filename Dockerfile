@@ -1,8 +1,10 @@
-FROM dwolla/jenkins-agent-core:debian
+ARG CORE_TAG
+
+FROM dwolla/jenkins-agent-core:$CORE_TAG
 LABEL org.label-schema.vcs-url="https://github.com/Dwolla/jenkins-agent-docker-nvm"
 LABEL maintainer="dev+jenkins-nvm@dwolla.com"
 
-ENV NVM_VERSION=v0.34.0 \
+ENV NVM_VERSION=v0.39.1 \
     NVM_DIR="${JENKINS_HOME}/.nvm"
 
 COPY install.sh verify.sh /usr/local/bin/
@@ -20,4 +22,4 @@ RUN set -ex && \
 
 USER jenkins
 RUN mkdir -p ${NVM_DIR} && \
-    curl -L https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | /bin/bash
+    curl -L https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | /bin/bash
