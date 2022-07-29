@@ -11,13 +11,13 @@ With [yq](https://kislyuk.github.io/yq/) installed, to build this image locally 
 
 ```bash
 make \
-    JDK8_TAG=$(curl --silent https://raw.githubusercontent.com/Dwolla/jenkins-agents-workflow/main/.github/workflows/build-docker-image.yml | \
-        yq .jobs.\"build-jdk-matrix\".strategy.matrix.TAG | yq '.[] | select (test(".*?jdk8.*?"))') \
-    JDK11_TAG=$( curl --silent https://raw.githubusercontent.com/Dwolla/jenkins-agents-workflow/main/.github/workflows/build-docker-image.yml | \
-        yq .jobs.\"build-jdk-matrix\".strategy.matrix.TAG | yq '.[] | select (test(".*?jdk11.*?"))') \
+    CORE_JDK8_TAG=$(curl --silent https://raw.githubusercontent.com/Dwolla/jenkins-agents-workflow/main/.github/workflows/build-docker-image.yml | \
+        yq .jobs.\"build-core-matrix\".strategy.matrix.TAG | yq '.[] | select (test(".*?jdk8.*?"))') \
+    CORE_JDK11_TAG=$( curl --silent https://raw.githubusercontent.com/Dwolla/jenkins-agents-workflow/main/.github/workflows/build-docker-image.yml | \
+        yq .jobs.\"build-core-matrix\".strategy.matrix.TAG | yq '.[] | select (test(".*?jdk11.*?"))') \
     all
 ```
 
 Alternatively, without [yq](https://kislyuk.github.io/yq/) installed, refer to the CORE_TAG default values defined in [jenkins-agents-workflow](https://github.com/Dwolla/jenkins-agents-workflow/blob/main/.github/workflows/build-docker-image.yml) and run the following command:
 
-`make JDK11_TAG=<default-jdk-11-tag-from-jenkins-agents-workflow> JDK8_TAG=<default-jdk-8-tag-from-jenkins-agents-workflow> all`
+`make CORE_JDK11_TAG=<default-core-jdk11-tag-from-jenkins-agents-workflow> CORE_JDK8_TAG=<default-core-jdk8-tag-from-jenkins-agents-workflow> all`

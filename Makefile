@@ -1,4 +1,4 @@
-CORE_TAGS := $(JDK8_TAG) $(JDK11_TAG)
+CORE_TAGS := $(CORE_JDK8_TAG) $(CORE_JDK11_TAG)
 JOBS := $(addprefix core-,${CORE_TAGS})
 CLEAN_JOBS := $(addprefix clean-,${CORE_TAGS})
 
