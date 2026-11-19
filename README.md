@@ -7,15 +7,8 @@ Docker image based on [Dwolla’s core Jenkins Agent Docker image](https://githu
 
 ## Local Development
 
-With [yq](https://kislyuk.github.io/yq/) installed, to build this image locally run the following command:
+The core image tag this image builds on is pinned as `CORE_TAG` in [`.github/workflows/ci.yml`](.github/workflows/ci.yml). To build the same image locally:
 
 ```bash
-make \
-    CORE_JDK11_TAG=$( curl --silent https://raw.githubusercontent.com/Dwolla/jenkins-agents-workflow/main/.github/workflows/build-docker-image.yml | \
-        yq .on.\"workflow_call\".inputs.CORE_TAG.default) \
-    all
+make CORE_JDK11_TAG=$(sed -n 's/^ *CORE_TAG: *//p' .github/workflows/ci.yml) all
 ```
-
-Alternatively, without [yq](https://kislyuk.github.io/yq/) installed, refer to the CORE_TAG default values defined in [jenkins-agents-workflow](https://github.com/Dwolla/jenkins-agents-workflow/blob/main/.github/workflows/build-docker-image.yml) and run the following command:
-
-`make CORE_JDK11_TAG=<default-core-jdk11-tag-from-jenkins-agents-workflow> all`

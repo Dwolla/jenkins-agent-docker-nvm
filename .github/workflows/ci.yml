@@ -13,6 +13,8 @@ jobs:
     with:
       IMAGE_NAME: dwolla/jenkins-agent-nvm
       TAG_NAME: CORE_TAG
+      # Java 21 core (PLT-2156): the agent and `java` run on Java 21 (PLT-2159)
+      CORE_TAG: 3395.v6e5377b_0fb_3c-5-jdk21-df5d94a
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
